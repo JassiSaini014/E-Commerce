@@ -30,8 +30,8 @@ SECRET_KEY = 'django-insecure-qa6zn#i4bgxyz7z^9ea2a)izn4_b^fhe7$-)gzap$v9+#en%qn
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['perfect-abundance-production-77c6.up.railway.app','https://perfect-abundance-production-77c6.up.railway.app']
-CSRF_TRUSTED_ORIGINS = ['https://perfect-abundance-production-77c6.up.railway.app']
+ALLOWED_HOSTS = ['*']
+
 
 # Application definition
 
@@ -126,6 +126,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = ['static/']
+
+
+
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = BASE_DIR / 'staticfiles'

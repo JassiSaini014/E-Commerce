@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<!--messages-->
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-warning alert-dismissible fade show my-0" role="alert">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Checkout</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Review your order.</p>
+        </div>
+    </div>
+</header>
+<div class="container my-4">
+    <div class='container'>
+        <div class='row'>
+            <center>
+                <div class='col-md-6'>
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Order Summary</strong>
+                        </div>
+                        <div class="card-body" align="left">
+                            {% for product in cart_products %}
+                            <strong>{{product.name}}:</strong>
+                            {% if product.is_sale %}
+                            ${{ product.sale_price }}
+                            {% else %}
+                            ${{product.price}}
+                            {% endif %}
+                            <br>
+                            <small>Quantity :
+                                {% for key, value in quantites.items %}
+                                {% if key == product.id|slugify %}
+                                {{ value }}
+                                {% endif %}
+                                {% endfor %}</small><br><br>
+
+
+                            {%endfor%}
+                            <hr>
+                            <strong>Total: ${{totals}}</strong>
+                            <br>
+                            <br>
+                            <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Go Back</a>
+                        </div>
+                    </div>
+                    <div class="card my-4">
+                        <div class="card-header">
+                            <strong>Shipping Address</strong>
+                        </div>
+                        <div class="card-body">
+                            <form action="{% url 'billing_info' %}" method="post">
+                                {% csrf_token %}
+                                {{ shipping_form.as_p }}
+                                <hr>
+                                <button type="submit" class="btn btn-sm btn-outline-secondary">Countinue To Billing</button>
+                            </form>
+                        </div>
+
+
+                    </div>
+
+                </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block content %}
+<!--messages-->
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-warning alert-dismissible fade show my-0" role="alert">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+<!-- Header-->
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Billing Info</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Review your order.</p>
+        </div>
+    </div>
+</header>
+<div class="container my-4">
+    <div class='container'>
+        <div class='row'>
+            <center>
+                <div class='col-md-6'>
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Order Summary</strong>
+                        </div>
+                        <div class="card-body" align="left">
+                            {% for product in cart_products %}
+                            <strong>{{product.name}}:</strong>
+                            {% if product.is_sale %}
+                            ${{ product.sale_price }}
+                            {% else %}
+                            ${{product.price}}
+                            {% endif %}
+                            <br>
+                            <small>Quantity :
+                                {% for key, value in quantites.items %}
+                                {% if key == product.id|slugify %}
+                                {{ value }}
+                                {% endif %}
+                                {% endfor %}</small><br><br>
+
+
+                            {%endfor%}
+                            <hr>
+                            <strong>Total: ${{totals}}</strong>
+                            <br>
+                            <br>
+                            <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Go Back</a>
+                        </div>
+                    </div>
+                    <!--Shipping Information-->
+                    <div class="card my-4">
+                        <div class="card-header">
+                            <strong>Shipping Address</strong>
+                        </div>
+                        <div class="card-body" align="left">
+                            <strong> Name : </strong>{{ shipping_info.shipping_full_name }}<br>
+                            <strong> Email : </strong>{{ shipping_info.shipping_email }}<br>
+                            <strong>Address 1 : </strong>{{ shipping_info.shipping_address1 }}<br>
+                            <strong>Address 2 : </strong>{{ shipping_info.shipping_address2 }}<br>
+                            <strong> City : </strong>{{ shipping_info.shipping_city }}<br>
+                            <strong> State : </strong>{{ shipping_info.shipping_state }}<br>
+                            <strong>Zipcode : </strong>{{ shipping_info.shipping_zipcode }}<br>
+                            <strong> Country : </strong>{{ shipping_info.shipping_country }}<br><br>
+
+                            <hr>
+                            <a href="{% url 'checkout' %} " class="btn btn-outline-secondary">Update Shipping
+                                Address</a>
+                        </div>
+
+
+                    </div>
+                    <!--Billing Form-->
+                    <div class="card my-4">
+                        <div class="card-header">
+                            <strong>Billing Information</strong>
+                        </div>
+                        <div class="card-body" align="left">
+                            <form method="post" action="{% url 'process_order' %}">
+                                {% csrf_token %}
+                                {{ billing_form.as_p }}
+
+                                <hr>
+                                <button type="submit" class="btn btn-outline-secondary">Pay Now</button>
+                            </form>
+                            <div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        {% endblock content %}

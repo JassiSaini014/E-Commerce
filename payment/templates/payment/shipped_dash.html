@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<!--messages-->
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-warning alert-dismissible fade show my-0" role="alert">
+    {{message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
+<center>
+    <div class='container col-md-8 my-3'>
+        <table class="table table-hover table-striped-columns">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Order Shipped</th>
+                </tr>
+            </thead>
+            {% for item in order %}
+            <tbody>
+                <tr>
+                    <th scope="row"><a href="{% url 'orders' item.id %}">{{ item.id }}</a></th>
+                    <td>{{ item.amount_paid }}</td>
+                    <td>{{ item.email }}</td>   
+                    <td>{{ item.date_shipped }}</td>   
+                </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
